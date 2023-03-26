@@ -6,3 +6,7 @@
 //
 
 import Foundation
+
+struct MealCategoryModel: Codable {
+    let strCategory: String
+}
