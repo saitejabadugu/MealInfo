@@ -13,11 +13,13 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = .red
+        getCategoryModel()
     }
     
     func getCategoryModel() {
-        
+        Api.getMealCategories { categories in
+            self.categoryModel = categories
+        }
     }
 
 

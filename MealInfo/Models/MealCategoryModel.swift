@@ -7,6 +7,10 @@
 
 import Foundation
 
-struct MealCategoryModel: Codable {
+struct MealModel: Codable {
     let strCategory: String
+}
+
+struct MealCategoryModel: Codable {
+    let meals: [MealModel]
 }
