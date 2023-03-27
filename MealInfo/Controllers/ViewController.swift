@@ -74,7 +74,6 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         getMealInfo(category)
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
             self.navigativeMealInfo(category)
-
         }
     }
 }
