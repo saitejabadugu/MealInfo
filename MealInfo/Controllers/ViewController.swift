@@ -67,4 +67,18 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         cell.textLabel?.text = categoryModel?.meals[indexPath.row].strCategory
         return cell
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let category = categoryModel?.meals[indexPath.row].strCategory ?? ""
+        navigativeMealInfo(category)
+    }
+}
+
+
+extension ViewController {
+    func navigativeMealInfo(_ category: String) {
+        let vc = MealInfoVC()
+        vc.mealCategory = category
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
 }
