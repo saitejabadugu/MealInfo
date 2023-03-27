@@ -10,6 +10,7 @@ import UIKit
 class MealInfoVC: UIViewController {
     
     var mealCategory: String?
+    var infoModel: MealInfoModel?
 
     override func viewDidLoad() {
         super.viewDidLoad()

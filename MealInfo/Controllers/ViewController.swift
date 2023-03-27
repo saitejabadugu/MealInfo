@@ -10,6 +10,7 @@ import UIKit
 class ViewController: UIViewController {
 
     var categoryModel: MealCategoryModel?
+    var infoModel: MealInfoModel?
     
     var categoryListTableview: UITableView = {
         let tableView = UITableView()
@@ -70,15 +71,27 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let category = categoryModel?.meals[indexPath.row].strCategory ?? ""
-        navigativeMealInfo(category)
+        getMealInfo(category)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+            self.navigativeMealInfo(category)
+
+        }
     }
 }
 
-
 extension ViewController {
+    
+    func getMealInfo(_ category: String) {
+        let infoURL = "https://www.themealdb.com/api/json/v1/1/filter.php?c="+category
+        Api.getMealInfo(infoURL: infoURL) { meals in
+            self.infoModel = meals
+        }
+    }
+    
     func navigativeMealInfo(_ category: String) {
         let vc = MealInfoVC()
         vc.mealCategory = category
+        vc.infoModel = self.infoModel
         self.navigationController?.pushViewController(vc, animated: true)
     }
 }
