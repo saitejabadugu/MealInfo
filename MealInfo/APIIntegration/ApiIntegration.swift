@@ -42,9 +42,21 @@ class Api {
         })
         task.resume()
     }
+    
+    static func getMealDetail(detailURL: String,completion: @escaping(MealDetailModel) -> Void) {
+        let url = URL(string: detailURL)!
+        let task = URLSession.shared.dataTask(with: url, completionHandler: { data, response, error in
+            if let error = error {
+                print("Got error -----\(error)")
+                return
+            }
+            
+            if let data = data,
+               let mealDetail = try? JSONDecoder().decode(MealDetailModel.self, from: data) {
+                print("data is---\(mealDetail)")
+                completion(mealDetail)
+            }
+        })
+        task.resume()
+    }
 }
-
-
-
-
-

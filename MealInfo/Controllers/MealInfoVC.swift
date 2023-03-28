@@ -11,6 +11,7 @@ class MealInfoVC: UIViewController {
     
     var mealCategory: String?
     var infoModel: MealInfoModel?
+    var detailModel: MealDetailModel?
     
     lazy var infoTableView: UITableView = {
         let tableView = UITableView()
@@ -25,7 +26,7 @@ class MealInfoVC: UIViewController {
         self.title = mealCategory
         setUpTableView()
         setUpUI()
-        setUpAutoLayoput()
+        setUpAutoLayout()
     }
     
     func setUpUI() {
@@ -38,7 +39,7 @@ class MealInfoVC: UIViewController {
         infoTableView.register(UITableViewCell.self, forCellReuseIdentifier: "InformKey")
     }
     
-    func setUpAutoLayoput() {
+    func setUpAutoLayout() {
         NSLayoutConstraint.activate([
             infoTableView.leftAnchor.constraint(equalTo: view.leftAnchor),
             infoTableView.rightAnchor.constraint(equalTo: view.rightAnchor),
@@ -60,5 +61,31 @@ extension MealInfoVC: UITableViewDelegate, UITableViewDataSource {
         return cell
     }
     
-    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let mealId = infoModel?.meals[indexPath.row].idMeal ?? ""
+        getMealDetail(mealId)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+            self.navigateToDetailVC()
+        }
+    }
+        
 }
+
+extension MealInfoVC {
+    
+    
+    func getMealDetail(_ mealId: String) {
+       let detailUrl = "https://www.themealdb.com/api/json/v1/1/lookup.php?i=" + mealId
+        Api.getMealDetail(detailURL: detailUrl) { details in
+            self.detailModel = details
+        }
+    }
+    
+    
+    func navigateToDetailVC() {
+        let vc = MealDetailVC()
+        vc.detailModel = detailModel
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
+}
+        
