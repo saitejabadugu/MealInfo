@@ -14,10 +14,11 @@ class MealDetailVC: UIViewController {
     lazy var contentView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = .white
         return view
     }()
     
-    lazy var detailImgView: UIImageView = {
+    lazy var mealImgView: UIImageView = {
         let imgView = UIImageView()
         imgView.translatesAutoresizingMaskIntoConstraints = false
         imgView.contentMode = .scaleToFill
@@ -62,13 +63,15 @@ class MealDetailVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setUpUI()
-        setUpdata()
-        setUpAutoLayout()
-        view.backgroundColor = .white
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            self.setUpdata()
+            self.setUpUI()
+            self.setUpAutoLayout()
+        }
     }
     
     func setUpdata() {
+        mealImgView.image = UIImage(named: "defaultIcon")
         mealNameLabel.text = detailModel?.meals.first?.strMeal
         categoryLabel.text = detailModel?.meals.first?.strCategory
         areaLabel.text = detailModel?.meals.first?.strArea
@@ -77,6 +80,7 @@ class MealDetailVC: UIViewController {
     }
     
     func setUpUI() {
+        contentView.addSubview(mealImgView)
         contentView.addSubview(mealNameLabel)
         contentView.addSubview(categoryLabel)
         contentView.addSubview(areaLabel)
@@ -92,9 +96,14 @@ class MealDetailVC: UIViewController {
             contentView.topAnchor.constraint(equalTo: view.topAnchor),
             contentView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             
+            mealImgView.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 16),
+            mealImgView.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -16),
+            mealImgView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 144),
+            mealImgView.heightAnchor.constraint(equalToConstant: 60),
+            
             mealNameLabel.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 16),
             mealNameLabel.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -16),
-            mealNameLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 144),
+            mealNameLabel.topAnchor.constraint(equalTo: mealImgView.bottomAnchor, constant: 16),
             
             categoryLabel.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 16),
             categoryLabel.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -16),
