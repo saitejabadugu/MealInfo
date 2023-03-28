@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		56771ED829D324E000B79E79 /* Utility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56771ED729D324E000B79E79 /* Utility.swift */; };
 		56B8616429CB420800F7F726 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56B8616329CB420800F7F726 /* AppDelegate.swift */; };
 		56B8616629CB420800F7F726 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56B8616529CB420800F7F726 /* SceneDelegate.swift */; };
 		56B8616829CB420800F7F726 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56B8616729CB420800F7F726 /* ViewController.swift */; };
@@ -42,6 +43,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		56771ED729D324E000B79E79 /* Utility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utility.swift; sourceTree = "<group>"; };
 		56B8616029CB420800F7F726 /* MealInfo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MealInfo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		56B8616329CB420800F7F726 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		56B8616529CB420800F7F726 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -88,6 +90,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		56771ED629D324C900B79E79 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				56771ED729D324E000B79E79 /* Utility.swift */,
+			);
+			path = Utilities;
+			sourceTree = "<group>";
+		};
 		56B8615729CB420800F7F726 = {
 			isa = PBXGroup;
 			children = (
@@ -111,6 +121,7 @@
 		56B8616229CB420800F7F726 /* MealInfo */ = {
 			isa = PBXGroup;
 			children = (
+				56771ED629D324C900B79E79 /* Utilities */,
 				56F2517229D16A2200CBF535 /* Controllers */,
 				56FE1EF229D08050003A9A34 /* APIIntegration */,
 				56FE1EEF29D07F43003A9A34 /* Models */,
@@ -300,6 +311,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				56771ED829D324E000B79E79 /* Utility.swift in Sources */,
 				56F2517629D1A96800CBF535 /* MealInfoModel.swift in Sources */,
 				56FE1EF129D07F7E003A9A34 /* MealCategoryModel.swift in Sources */,
 				56DB668E29D2C65A001955CC /* MealDetailVC.swift in Sources */,

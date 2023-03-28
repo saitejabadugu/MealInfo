@@ -71,7 +71,8 @@ class MealDetailVC: UIViewController {
     }
     
     func setUpdata() {
-        mealImgView.image = UIImage(named: "defaultIcon")
+        let img = detailModel?.meals.first?.strMealThumb ?? ""
+        mealImgView.imageFromUrl(urlString: img)
         mealNameLabel.text = detailModel?.meals.first?.strMeal
         categoryLabel.text = detailModel?.meals.first?.strCategory
         areaLabel.text = detailModel?.meals.first?.strArea
@@ -96,10 +97,10 @@ class MealDetailVC: UIViewController {
             contentView.topAnchor.constraint(equalTo: view.topAnchor),
             contentView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             
-            mealImgView.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 16),
-            mealImgView.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -16),
-            mealImgView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 144),
-            mealImgView.heightAnchor.constraint(equalToConstant: 60),
+            mealImgView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 86),
+            mealImgView.heightAnchor.constraint(equalToConstant: 120),
+            mealImgView.widthAnchor.constraint(equalToConstant: 180),
+            mealImgView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
             
             mealNameLabel.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 16),
             mealNameLabel.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -16),
