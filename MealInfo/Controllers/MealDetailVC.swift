@@ -91,13 +91,15 @@ class MealDetailVC: UIViewController {
     }
     
     func setUpUI() {
-        scrollView.addSubview(mealImgView)
-        scrollView.addSubview(mealNameLabel)
-        scrollView.addSubview(categoryLabel)
-        scrollView.addSubview(areaLabel)
-        scrollView.addSubview(instructionsLabel)
-        scrollView.addSubview(tagsLabel)
         view.addSubview(scrollView)
+        scrollView.addSubview(scrollViewContainer)
+        scrollViewContainer.addArrangedSubview(mealImgView)
+        scrollViewContainer.addArrangedSubview(mealNameLabel)
+        scrollViewContainer.addArrangedSubview(categoryLabel)
+        scrollViewContainer.addArrangedSubview(areaLabel)
+        scrollViewContainer.addArrangedSubview(instructionsLabel)
+        scrollViewContainer.addArrangedSubview(tagsLabel)
+
     }
     
     func setUpAutoLayout() {
@@ -106,30 +108,36 @@ class MealDetailVC: UIViewController {
             scrollView.rightAnchor.constraint(equalTo: view.rightAnchor),
             scrollView.topAnchor.constraint(equalTo: view.topAnchor),
             scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            
-            mealImgView.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 86),
+
+            scrollViewContainer.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
+            scrollViewContainer.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
+            scrollViewContainer.topAnchor.constraint(equalTo: scrollView.topAnchor),
+            scrollViewContainer.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
+            scrollViewContainer.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
+
+            mealImgView.topAnchor.constraint(equalTo: scrollViewContainer.topAnchor, constant: 86),
             mealImgView.heightAnchor.constraint(equalToConstant: 120),
             mealImgView.widthAnchor.constraint(equalToConstant: 180),
-            mealImgView.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor),
-            
-            mealNameLabel.leftAnchor.constraint(equalTo: scrollView.leftAnchor, constant: 16),
-            mealNameLabel.rightAnchor.constraint(equalTo: scrollView.rightAnchor, constant: -16),
+            mealImgView.centerXAnchor.constraint(equalTo: scrollViewContainer.centerXAnchor),
+
+            categoryLabel.leftAnchor.constraint(equalTo: scrollViewContainer.leftAnchor, constant: 16),
+            categoryLabel.rightAnchor.constraint(equalTo: scrollViewContainer.rightAnchor, constant: -16),
             mealNameLabel.topAnchor.constraint(equalTo: mealImgView.bottomAnchor, constant: 16),
             
-            categoryLabel.leftAnchor.constraint(equalTo: scrollView.leftAnchor, constant: 16),
-            categoryLabel.rightAnchor.constraint(equalTo: scrollView.rightAnchor, constant: -16),
+            categoryLabel.leftAnchor.constraint(equalTo: scrollViewContainer.leftAnchor, constant: 16),
+            categoryLabel.rightAnchor.constraint(equalTo: scrollViewContainer.rightAnchor, constant: -16),
             categoryLabel.topAnchor.constraint(equalTo: mealNameLabel.bottomAnchor, constant: 16),
             
-            areaLabel.leftAnchor.constraint(equalTo: scrollView.leftAnchor, constant: 16),
-            areaLabel.rightAnchor.constraint(equalTo: scrollView.rightAnchor, constant: -16),
+            areaLabel.leftAnchor.constraint(equalTo: scrollViewContainer.leftAnchor, constant: 16),
+            areaLabel.rightAnchor.constraint(equalTo: scrollViewContainer.rightAnchor, constant: -16),
             areaLabel.topAnchor.constraint(equalTo: categoryLabel.bottomAnchor, constant: 16),
             
-            instructionsLabel.leftAnchor.constraint(equalTo: scrollView.leftAnchor, constant: 16),
-            instructionsLabel.rightAnchor.constraint(equalTo: scrollView.rightAnchor, constant: -16),
+            instructionsLabel.leftAnchor.constraint(equalTo: scrollViewContainer.leftAnchor, constant: 16),
+            instructionsLabel.rightAnchor.constraint(equalTo: scrollViewContainer.rightAnchor, constant: -16),
             instructionsLabel.topAnchor.constraint(equalTo: areaLabel.bottomAnchor, constant: 16),
             
-            tagsLabel.leftAnchor.constraint(equalTo: scrollView.leftAnchor, constant: 16),
-            tagsLabel.rightAnchor.constraint(equalTo: scrollView.rightAnchor, constant: -16),
+            tagsLabel.leftAnchor.constraint(equalTo: scrollViewContainer.leftAnchor, constant: 16),
+            tagsLabel.rightAnchor.constraint(equalTo: scrollViewContainer.rightAnchor, constant: -16),
             tagsLabel.topAnchor.constraint(equalTo: instructionsLabel.bottomAnchor, constant: 16),
         ])
     }
