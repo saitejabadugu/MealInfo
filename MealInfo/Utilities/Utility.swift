@@ -23,3 +23,12 @@ extension UIImageView {
         }
     }
 }
+
+class Utility {
+    static func showToast(title: String = "", msg: String,_ vc: UIViewController) {
+        let messageVC = UIAlertController(title: title, message: msg , preferredStyle: .actionSheet)
+        vc.present(messageVC, animated: true) {
+                        Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false, block: { (_) in
+                            messageVC.dismiss(animated: true, completion: nil)})}
+    }
+}

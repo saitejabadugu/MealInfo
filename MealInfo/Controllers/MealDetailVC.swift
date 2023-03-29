@@ -71,6 +71,17 @@ class MealDetailVC: UIViewController {
         return infolabel
     }()
     
+    
+    lazy var mealBtn: UIButton = {
+        let btn = UIButton()
+        btn.translatesAutoresizingMaskIntoConstraints = false
+        btn.titleLabel?.text = "text"
+        btn.backgroundColor = .black
+        btn.titleLabel?.textColor = .white
+        btn.addTarget(nil, action: #selector(navigateToYoutube), for: .touchUpInside)
+        return btn
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
@@ -83,11 +94,13 @@ class MealDetailVC: UIViewController {
     func setUpdata() {
         let img = detailModel?.meals.first?.strMealThumb ?? ""
         mealImgView.imageFromUrl(urlString: img)
-        mealNameLabel.text = detailModel?.meals.first?.strMeal
+        let mealName = detailModel?.meals.first?.strMeal
+        mealNameLabel.text = mealName
         categoryLabel.text = detailModel?.meals.first?.strCategory
         areaLabel.text = detailModel?.meals.first?.strArea
         instructionsLabel.text = detailModel?.meals.first?.strInstructions
         tagsLabel.text = detailModel?.meals.first?.strTags
+        mealBtn.setTitle(mealName, for: .normal)
     }
     
     func setUpUI() {
@@ -99,7 +112,7 @@ class MealDetailVC: UIViewController {
         scrollViewContainer.addArrangedSubview(areaLabel)
         scrollViewContainer.addArrangedSubview(instructionsLabel)
         scrollViewContainer.addArrangedSubview(tagsLabel)
-
+        scrollViewContainer.addArrangedSubview(mealBtn)
     }
     
     func setUpAutoLayout() {
@@ -139,7 +152,23 @@ class MealDetailVC: UIViewController {
             tagsLabel.leftAnchor.constraint(equalTo: scrollViewContainer.leftAnchor, constant: 16),
             tagsLabel.rightAnchor.constraint(equalTo: scrollViewContainer.rightAnchor, constant: -16),
             tagsLabel.topAnchor.constraint(equalTo: instructionsLabel.bottomAnchor, constant: 16),
+            
+            mealBtn.leftAnchor.constraint(equalTo: scrollViewContainer.leftAnchor, constant: 16),
+            mealBtn.rightAnchor.constraint(equalTo: scrollViewContainer.rightAnchor, constant: -16),
+            mealBtn.topAnchor.constraint(equalTo: tagsLabel.bottomAnchor, constant: 16),
+            mealBtn.heightAnchor.constraint(equalTo: tagsLabel.heightAnchor, constant: 32),
+
         ])
     }
+    
+    @objc func navigateToYoutube() {
+        let ytURL = detailModel?.meals.first?.strYoutube ?? ""
+        guard let url = URL(string: ytURL) else {
+            Utility.showToast(msg: "No Link", self)
+            return
+        }
+        UIApplication.shared.openURL(url)
+    }
+    
     
 }
