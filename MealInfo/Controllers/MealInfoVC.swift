@@ -16,7 +16,7 @@ class MealInfoVC: UIViewController {
     lazy var infoTableView: UITableView = {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.separatorStyle = .singleLine
+        tableView.separatorStyle = .none
         return tableView
     }()
     
@@ -36,7 +36,7 @@ class MealInfoVC: UIViewController {
     func setUpTableView() {
         infoTableView.delegate = self
         infoTableView.dataSource = self
-        infoTableView.register(UITableViewCell.self, forCellReuseIdentifier: "InformKey")
+        infoTableView.register(ItemInfoCell.self, forCellReuseIdentifier: ItemInfoCell.reuseIdentifier)
     }
     
     func setUpAutoLayout() {
@@ -55,9 +55,11 @@ extension MealInfoVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "InformKey", for: indexPath)
-        cell.textLabel?.text = infoModel?.meals[indexPath.row].strMeal
-        cell.imageView?.image = UIImage(named: "defaultIcon")
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: ItemInfoCell.reuseIdentifier, for: indexPath) as? ItemInfoCell else { return UITableViewCell() }
+        let model = infoModel?.meals[indexPath.row]
+        cell.configure(model: model)
+        //cell.textLabel?.text = infoModel?.meals[indexPath.row]//.strMeal
+        //cell.imageView?.image = UIImage(named: "defaultIcon")
         return cell
     }
     
