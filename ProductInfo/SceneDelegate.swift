@@ -15,7 +15,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let win = (scene as? UIWindowScene) else { return }
         let navVC = UINavigationController()
-        let vc = ViewController()
+        let vc = AlbumListVC()
         navVC.viewControllers = [vc]
         window = UIWindow(windowScene: win)
         window?.rootViewController = navVC

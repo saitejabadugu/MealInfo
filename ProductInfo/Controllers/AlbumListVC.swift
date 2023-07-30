@@ -1,17 +1,16 @@
 //
-//  MealInfoVC.swift
-//  MealInfo
+//  AlbumListVC.swift
+//  AlbumList
 //
-//  Created by Keerthi Devipriya(kdp) on 27/03/23.
+//  Created by Keerthi Devipriya(kdp) on 30/07/23.
 //
 
 import UIKit
 
-class MealInfoVC: UIViewController {
+class AlbumListVC: UIViewController {
     
-    var mealCategory: String?
-    var infoModel: MealInfoModel?
-    var detailModel: MealDetailModel?
+    var infoModel: [Album]?
+    var detailModel: Album?
     
     lazy var infoTableView: UITableView = {
         let tableView = UITableView()
@@ -23,10 +22,13 @@ class MealInfoVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-        self.title = mealCategory
-        setUpTableView()
-        setUpUI()
-        setUpAutoLayout()
+        self.title = "List"
+        getAlbumsModel()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+            self.setUpTableView()
+            self.setUpUI()
+            self.setUpAutoLayout()
+        }
     }
     
     func setUpUI() {
@@ -47,45 +49,46 @@ class MealInfoVC: UIViewController {
             infoTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
         ])
     }
+    
+    func getAlbumsModel() {
+        ApiIntegration.getAlbums { categories in
+            self.infoModel = categories
+        }
+    }
 }
 
-extension MealInfoVC: UITableViewDelegate, UITableViewDataSource {
+extension AlbumListVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return infoModel?.meals.count ?? 0
+        return infoModel?.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: ItemInfoCell.reuseIdentifier, for: indexPath) as? ItemInfoCell else { return UITableViewCell() }
-        let model = infoModel?.meals[indexPath.row]
+        let model = infoModel?[indexPath.row]
         cell.configure(model: model)
-        //cell.textLabel?.text = infoModel?.meals[indexPath.row]//.strMeal
-        //cell.imageView?.image = UIImage(named: "defaultIcon")
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let mealId = infoModel?.meals[indexPath.row].idMeal ?? ""
+        let mealId = infoModel?[indexPath.row].id ?? 0
         getMealDetail(mealId)
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
             self.navigateToDetailVC()
         }
     }
-        
 }
 
-extension MealInfoVC {
-    
-    
-    func getMealDetail(_ mealId: String) {
-       let detailUrl = "https://www.themealdb.com/api/json/v1/1/lookup.php?i=" + mealId
-        Api.getMealDetail(detailURL: detailUrl) { details in
-            self.detailModel = details
-        }
+extension AlbumListVC {
+    func getMealDetail(_ mealId: Int) {
+        self.detailModel = infoModel?.filter {$0.id == mealId}.first
     }
     
+    func getMockAlbums() {
+        self.infoModel = ApiIntegration.loadJson()
+    }
     
     func navigateToDetailVC() {
-        let vc = MealDetailVC()
+        let vc = ProductDetailVC()
         vc.detailModel = detailModel
         self.navigationController?.pushViewController(vc, animated: true)
     }

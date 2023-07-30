@@ -60,3 +60,42 @@ class Api {
         task.resume()
     }
 }
+
+class ApiIntegration {
+    enum UrlConstants {
+        static let url = "https://jsonplaceholder.typicode.com/photos"
+    }
+    
+    static func getAlbums(completion: @escaping([Album]) -> Void) {
+        let categoryUrl = UrlConstants.url
+        let url = URL(string: categoryUrl)!
+        
+        let task = URLSession.shared.dataTask(with: url, completionHandler: { data, response, error in
+            if let error = error {
+                print("Got Errror -----\(error)")
+                return
+            }
+            
+            if let data = data,
+                let albumdata = try? JSONDecoder().decode([Album].self, from:  data) {
+                completion(albumdata)
+            }
+        })
+        task.resume()
+    }
+    
+    static func loadJson() -> [Album] {
+        if let url = Bundle.main.url(forResource: "mockalbums", withExtension: "json") {
+            do {
+                let data = try Data(contentsOf: url)
+                let decoder = JSONDecoder()
+                let jsonData = try decoder.decode([Album].self, from: data)
+                return jsonData
+            } catch {
+                print("error:\(error)")
+            }
+        }
+        return []
+    }
+}
+

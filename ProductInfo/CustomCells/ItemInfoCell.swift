@@ -1,8 +1,8 @@
 //
 //  ItemInfoCell.swift
-//  MealInfo
+//  ProductInfo
 //
-//  Created by Keerthi Devipriya(kdp) on 10/04/23.
+//  Created by Keerthi Devipriya(kdp) on 30/07/23.
 //
 
 import UIKit
@@ -38,10 +38,10 @@ class ItemInfoCell: UITableViewCell {
         return lbl
     }()
     
-    func configure(model: MealInfo?) {
+    func configure(model: Album?) {
         
         itemImg.image = UIImage(named: "defaultIcon")
-        itemNameLbl.text = model?.strMeal ?? ""
+        itemNameLbl.text = model?.title ?? ""
         
         setUpUI()
         setUpAutoLayout()

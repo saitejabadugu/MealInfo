@@ -1,15 +1,15 @@
 //
-//  MealDetailVC.swift
-//  MealInfo
+//  ProductDetailVC.swift
+//  ProductInfo
 //
 //  Created by Keerthi Devipriya(kdp) on 28/03/23.
 //
 
 import UIKit
 
-class MealDetailVC: UIViewController {
+class ProductDetailVC: UIViewController {
     
-    var detailModel: MealDetailModel?
+    var detailModel: Album?
     
     lazy var scrollView: UIScrollView = {
         let view = UIScrollView()
@@ -38,14 +38,15 @@ class MealDetailVC: UIViewController {
     lazy var mealNameLabel: UILabel = {
         let infolabel = UILabel()
         infolabel.translatesAutoresizingMaskIntoConstraints = false
+        infolabel.numberOfLines = 2
         infolabel.text = "text"
         return infolabel
     }()
     
-    lazy var categoryLabel: UILabel = {
-        let infolabel = UILabel()
+    lazy var categoryLabel: UITextField = {
+        let infolabel = UITextField()
+        infolabel.placeholder = "Update the title"
         infolabel.translatesAutoresizingMaskIntoConstraints = false
-        infolabel.text = "text"
         return infolabel
     }()
     
@@ -92,15 +93,15 @@ class MealDetailVC: UIViewController {
     }
     
     func setUpdata() {
-        let img = detailModel?.meals.first?.strMealThumb ?? ""
+        let img = detailModel?.thumbnailUrl ?? ""
         mealImgView.imageFromUrl(urlString: img)
-        let mealName = detailModel?.meals.first?.strMeal
+        let mealName = detailModel?.title
         mealNameLabel.text = mealName
-        categoryLabel.text = detailModel?.meals.first?.strCategory
-        areaLabel.text = detailModel?.meals.first?.strArea
-        instructionsLabel.text = detailModel?.meals.first?.strInstructions
-        tagsLabel.text = detailModel?.meals.first?.strTags
-        mealBtn.setTitle(mealName, for: .normal)
+        //categoryLabel.text = mealName
+        areaLabel.text = mealName
+        instructionsLabel.text = mealName
+        tagsLabel.text = mealName
+        mealBtn.setTitle("UpdateTitle", for: .normal)
     }
     
     func setUpUI() {
@@ -162,7 +163,7 @@ class MealDetailVC: UIViewController {
     }
     
     @objc func navigateToYoutube() {
-        let ytURL = detailModel?.meals.first?.strYoutube ?? ""
+        let ytURL = detailModel?.url ?? ""
         guard let url = URL(string: ytURL) else {
             Utility.showToast(msg: "No Link", self)
             return
