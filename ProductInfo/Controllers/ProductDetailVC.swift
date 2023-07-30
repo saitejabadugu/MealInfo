@@ -2,14 +2,19 @@
 //  ProductDetailVC.swift
 //  ProductInfo
 //
-//  Created by Keerthi Devipriya(kdp) on 28/03/23.
+//  Created by Keerthi Devipriya(kdp) on 30/07/23.
 //
 
 import UIKit
 
+protocol UpdateAlbum: AnyObject {
+    func updateTitle(id: Int, title: String)
+}
+
 class ProductDetailVC: UIViewController {
     
     var detailModel: Album?
+    weak var delegate: UpdateAlbum?
     
     lazy var scrollView: UIScrollView = {
         let view = UIScrollView()
@@ -50,36 +55,14 @@ class ProductDetailVC: UIViewController {
         return infolabel
     }()
     
-    lazy var areaLabel: UILabel = {
-        let infolabel = UILabel()
-        infolabel.translatesAutoresizingMaskIntoConstraints = false
-        infolabel.text = "text"
-        return infolabel
-    }()
     
-    lazy var instructionsLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "text"
-        label.numberOfLines = 0
-        return label
-    }()
-    
-    lazy var tagsLabel: UILabel = {
-        let infolabel = UILabel()
-        infolabel.translatesAutoresizingMaskIntoConstraints = false
-        infolabel.text = "text"
-        return infolabel
-    }()
-    
-    
-    lazy var mealBtn: UIButton = {
+    lazy var updateTitleBtn: UIButton = {
         let btn = UIButton()
         btn.translatesAutoresizingMaskIntoConstraints = false
         btn.titleLabel?.text = "text"
         btn.backgroundColor = .black
         btn.titleLabel?.textColor = .white
-        btn.addTarget(nil, action: #selector(navigateToYoutube), for: .touchUpInside)
+        btn.addTarget(nil, action: #selector(navigateBackToList), for: .touchUpInside)
         return btn
     }()
     
@@ -97,11 +80,7 @@ class ProductDetailVC: UIViewController {
         mealImgView.imageFromUrl(urlString: img)
         let mealName = detailModel?.title
         mealNameLabel.text = mealName
-        //categoryLabel.text = mealName
-        areaLabel.text = mealName
-        instructionsLabel.text = mealName
-        tagsLabel.text = mealName
-        mealBtn.setTitle("UpdateTitle", for: .normal)
+        updateTitleBtn.setTitle("UpdateTitle", for: .normal)
     }
     
     func setUpUI() {
@@ -110,10 +89,7 @@ class ProductDetailVC: UIViewController {
         scrollViewContainer.addArrangedSubview(mealImgView)
         scrollViewContainer.addArrangedSubview(mealNameLabel)
         scrollViewContainer.addArrangedSubview(categoryLabel)
-        scrollViewContainer.addArrangedSubview(areaLabel)
-        scrollViewContainer.addArrangedSubview(instructionsLabel)
-        scrollViewContainer.addArrangedSubview(tagsLabel)
-        scrollViewContainer.addArrangedSubview(mealBtn)
+        scrollViewContainer.addArrangedSubview(updateTitleBtn)
     }
     
     func setUpAutoLayout() {
@@ -142,33 +118,26 @@ class ProductDetailVC: UIViewController {
             categoryLabel.rightAnchor.constraint(equalTo: scrollViewContainer.rightAnchor, constant: -16),
             categoryLabel.topAnchor.constraint(equalTo: mealNameLabel.bottomAnchor, constant: 16),
             
-            areaLabel.leftAnchor.constraint(equalTo: scrollViewContainer.leftAnchor, constant: 16),
-            areaLabel.rightAnchor.constraint(equalTo: scrollViewContainer.rightAnchor, constant: -16),
-            areaLabel.topAnchor.constraint(equalTo: categoryLabel.bottomAnchor, constant: 16),
-            
-            instructionsLabel.leftAnchor.constraint(equalTo: scrollViewContainer.leftAnchor, constant: 16),
-            instructionsLabel.rightAnchor.constraint(equalTo: scrollViewContainer.rightAnchor, constant: -16),
-            instructionsLabel.topAnchor.constraint(equalTo: areaLabel.bottomAnchor, constant: 16),
-            
-            tagsLabel.leftAnchor.constraint(equalTo: scrollViewContainer.leftAnchor, constant: 16),
-            tagsLabel.rightAnchor.constraint(equalTo: scrollViewContainer.rightAnchor, constant: -16),
-            tagsLabel.topAnchor.constraint(equalTo: instructionsLabel.bottomAnchor, constant: 16),
-            
-            mealBtn.leftAnchor.constraint(equalTo: scrollViewContainer.leftAnchor, constant: 16),
-            mealBtn.rightAnchor.constraint(equalTo: scrollViewContainer.rightAnchor, constant: -16),
-            mealBtn.topAnchor.constraint(equalTo: tagsLabel.bottomAnchor, constant: 16),
-            mealBtn.heightAnchor.constraint(equalTo: tagsLabel.heightAnchor, constant: 32),
+            updateTitleBtn.leftAnchor.constraint(equalTo: scrollViewContainer.leftAnchor, constant: 16),
+            updateTitleBtn.rightAnchor.constraint(equalTo: scrollViewContainer.rightAnchor, constant: -16),
+            updateTitleBtn.topAnchor.constraint(equalTo: categoryLabel.bottomAnchor, constant: 16),
+            updateTitleBtn.heightAnchor.constraint(equalTo: categoryLabel.heightAnchor, constant: 32),
 
         ])
     }
     
-    @objc func navigateToYoutube() {
-        let ytURL = detailModel?.url ?? ""
-        guard let url = URL(string: ytURL) else {
-            Utility.showToast(msg: "No Link", self)
-            return
+    @objc func navigateBackToList() {
+        if categoryLabel.text != String() {
+            self.dismiss(animated: true) {
+                self.delegate?.updateTitle(id: self.detailModel?.id ?? 0, title: self.categoryLabel.text ?? String())
+            }
+        } else {
+            let alertVc = UIAlertController(title: "Oops!", message: "You haven't updated title", preferredStyle: .alert)
+            alertVc.addAction(UIAlertAction(title: "OK", style: .default, handler: { (alertAction) in
+                self.dismiss(animated: true)
+            }))
+            self.present(alertVc, animated: true)
         }
-        UIApplication.shared.openURL(url)
     }
     
     
