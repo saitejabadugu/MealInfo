@@ -11,6 +11,7 @@ class AlbumListVC: UIViewController {
     
     var infoModell: [Album]?
     var detailModel: Album?
+    var infoModel: [Album]?
     
     lazy var infoTableView: UITableView = {
         let tableView = UITableView()
@@ -58,8 +59,8 @@ class AlbumListVC: UIViewController {
     
     func getAlbumsModel() {
         ApiIntegration.getAlbums { categories in
-            Singleton.sharedInstance.infoModel = categories
-            //self.infoModel = categories//Singleton.sharedInstance.infoModel
+            //Singleton.sharedInstance.infoModel = categories
+            self.infoModel = categories//Singleton.sharedInstance.infoModel
         }
     }
 }
@@ -115,6 +116,6 @@ extension AlbumListVC: UpdateAlbum {
 
 class Singleton: NSObject {
     static let sharedInstance = Singleton()
-    var infoModel: [Album] = []//ApiIntegration.loadJson()
+    var infoModel: [Album] = ApiIntegration.loadJson()
 }
         
