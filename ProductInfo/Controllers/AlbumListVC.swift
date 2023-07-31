@@ -91,10 +91,6 @@ extension AlbumListVC {
         self.detailModel = Singleton.sharedInstance.infoModel.filter {$0.id == albumId}.first
     }
     
-    func getMockAlbums() {
-       // self.infoModel = ApiIntegration.loadJson()
-    }
-    
     func navigateToDetailVC() {
         let vc = ProductDetailVC()
         vc.delegate = self
@@ -105,12 +101,16 @@ extension AlbumListVC {
 
 extension AlbumListVC: UpdateAlbum {
     func updateTitle(id: Int, title: String) {
-        var modifiedobj = Singleton.sharedInstance.infoModel.filter{$0.id == id}.first
-        modifiedobj?.title = title
+        var newAlbums = infoModel
+        if let row = newAlbums?.firstIndex(where: {$0.id == id}) {
+            var modifiedobj = Singleton.sharedInstance.infoModel.filter{$0.id == id}.first
+            modifiedobj?.title = title
+            newAlbums?[row] = modifiedobj!
+        }
+        Singleton.sharedInstance.infoModel = newAlbums ?? []
+        self.infoModel = newAlbums
         infoTableView.reloadData()
         print("refreshed")
-        //Singleton.sharedInstance.infoModel.filter{$0.id == id}.first = modifiedobj
-        //self.infoModel = Singleton.sharedInstance.infoModel
     }
 }
 
